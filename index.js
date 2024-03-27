@@ -1,29 +1,30 @@
-import express from "express";
-import bodyParser from "body-parser";
-import cors from "cors"
-import mongoose from "mongoose";
-import recipeRoute from "./routes/recipes.routes.js";
-import dotenv from "dotenv"
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import recipesRoute from './routes/recipes.routes.js'
 
-dotenv.config({ path: ['.env.local'] })
-
-
-//create express app
+// Create express app
 const app = express();
 
-// use middlewares
+// Use middlewares
+/*app.use(express.json());
+app.use(express.urlencoded({extended: false}));*/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
+app.use(express.static('uploads'))
 
 
-// use routes
-app.use(recipeRoute);
+// Use routes
+app.use(recipesRoute)
 
-// make database connection
+
+// Make database connection
 await mongoose.connect(process.env.MONGO_URI);
 
-//listen for incoming requests
-app.listen(6000, () => {
-    console.log("Express app is running!")
+
+// Listen for incoming
+app.listen(4000, () => {
+    console.log('Express app is running')
 });

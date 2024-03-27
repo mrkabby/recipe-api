@@ -1,40 +1,24 @@
-import { Router } from "express";
-import { Recipe } from "../models/recipe.js";
+import { Router} from "express";
+import { addRecipe, deleteRecipe, getAllRecipes, getRecipe, updateRecipe } from "../controllers/recipes.controller.js";
+import multer from "multer";
 
+
+// Create multer upload middlewre
+const upload = multer({dest: 'uploads/images'});
+
+
+// Create recipes router
 const router = Router();
 
-
-
 // Define routes
-router.post('/recipe', async (req, res) => {
-    const result = await Recipe.create(req.body);
-    res.json(result);
+router.post('/recipes', upload.single('image'), addRecipe);
 
-});
+router.get('/recipes', getAllRecipes);
 
+router.get('/recipes/:id', getRecipe);
 
-router.get('/recipes', async (req, res) => {
-    const result = await Recipe.find({});
+router.patch('/recipes/:id', updateRecipe);
 
-    res.json(result);
+router.delete('/recipes/:id', deleteRecipe);
 
-
-});
-
-router.delete('/recipes', async (req, res) => {
-
-    const deleteManyResult = await Recipe.deleteMany({});
-
-    res.json(deleteManyResult);
-});
-
-router.get('/recipe/:id', (req, res) => {
-    res.json(`Get single recipes with id: ${req.params.id} !`);
-});
-router.patch('/recipe/:id', (req, res) => {
-    res.json('Update single todos!');
-});
-
-
-// Export Route
 export default router;
