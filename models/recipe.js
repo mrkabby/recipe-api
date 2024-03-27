@@ -4,4 +4,4 @@ const recipeSchema = new Schema ({
     title: {type: String, required: true}
 });
 
-export const Recipe = model("Recipe" ,recipeSchema, "recipes");
+export const RecipeModel = model("Recipe" ,recipeSchema, "recipes");
